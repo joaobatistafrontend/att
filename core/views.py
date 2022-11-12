@@ -5,6 +5,11 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 
+
+def index(request):
+    if request.method == 'GET':
+        return render(request,'index.html')
+
 def cadastro(request):
     if request.method == 'GET':
         return render (request,'cadastro.html')
@@ -31,7 +36,7 @@ def logado(request):
         user = authenticate(username=username,password=password)
         if user:
             login(request,user)
-            return HttpResponse('usuario logado')
+            return redirect('plata')
         else:
             return HttpResponse('noa esta logado')
 
@@ -40,14 +45,26 @@ def desloga(request):
         return render (request,'desloga.html')
     if request.method == 'POST':
         logout(request)
-        return HttpResponse('usuario deslogado')
+        return redirect('logando')
     else:
         return HttpResponse('usuario logado ainda')
 
+def mudar_senha(request):
+    if request.method =='GET':
+        return render (request,'mudarsenha.html')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('logando')
+    else:
+        password = request.POST.get('password')
 
+        user = User.objects.get(password=password)
+        user.set_password
+        user.save
+        return redirect('pla')
 
 def plataforma(request):
     if request.user.is_authenticated:
-        return HttpResponse('plataforma')
+        return render(request,'plataforma.html')
     else:
         return HttpResponse('precisa logar')

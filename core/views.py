@@ -4,7 +4,11 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from django.views.generic import View,CreateView
+from django.views.generic import View,CreateView,TemplateView
+
+class Index(TemplateView):
+    template_name = 'index.html'
+
 
 class Cadastro(CreateView):
     def get(self,request):
@@ -34,7 +38,7 @@ class Logado(View):
         user = authenticate(username=username,password=password)
         if user:
             login(request,user)
-            return redirect('plata')
+            return redirect('pla')
         else:
             return HttpResponse('noa esta logado')        
 
@@ -60,9 +64,10 @@ def mudar_senha(request):
         logout(request)
         return redirect('logando')
     else:
+        username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = User.objects.get(password=password)
+        user = User.objects.get(username =username)
         user.set_password
         user.save
         return redirect('pla')

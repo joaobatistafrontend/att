@@ -8,12 +8,9 @@
 </head>
 <body>
     <form action="{% url 'deslog' %}" method="post">{% csrf_token %}
-<<<<<<< HEAD
-        <input onclick="location.href = ''" value="cancelar">
-=======
-        <input type="button" value="cancelar" onclick="location.href='{% url 'plata' %}'">
->>>>>>> 0b52a9afecd2d3cddf1fd4406e4889788c895810
-        <input type="submit" value="sim">
+        <h1>Deseja Deslogar?</h1>
+        <input type="button" onclick="location.href = '{% url 'pla'%}'" value="cancelar">
+        <input type="button"onclick="location.href = '{% url 'index'%}'" value="sim">
     </form>
 </body>
 </html>

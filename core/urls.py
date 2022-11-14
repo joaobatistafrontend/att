@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import cadastro,logado,plataforma,desloga
+from .views import plataforma
+from .views import Cadastro,Logado,Desloga
 
 
 urlpatterns = [
-    path('',cadastro,name='cadastro'),
-    path('log',logado,name='logando'),
-    path('pla',plataforma),
-    path('des',desloga,name='deslog')
+    path('',Cadastro.as_view(),name='cadastro'),
+    path('log/',Logado.as_view(),name='logando'),
+    path('pla/',plataforma),
+    path('des/',Desloga.as_view(),name='deslog'),
+    path('pla/',plataforma,name='pla')
 ]

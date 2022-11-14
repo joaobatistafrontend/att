@@ -8,7 +8,7 @@
 </head>
 <body>
     <form action="{% url 'deslog' %}" method="post">{% csrf_token %}
-        <!-- <input type="reset" value="cancelar"> -->
+        <input onclick="location.href = ''" value="cancelar">
         <input type="submit" value="sim">
     </form>
 </body>

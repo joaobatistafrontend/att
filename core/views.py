@@ -58,7 +58,7 @@ class Desloga(View):
 
 
 
-class Senha(CreateView):
+class Senha(UpdateView):
     def get(self,request):
         if request.user.is_authenticated:
             return render (request,'senha.html') 
@@ -66,12 +66,11 @@ class Senha(CreateView):
     def post(self,request):
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        user = User.objects.filter(username=username,password=password)
         user = User.objects.get(username=username)
-        user.set_password = password
-        user.save
-        return HttpResponse('mudou?')
+        if user:
+            user.set_password(password)   
+            user.save()
+            return redirect('pla')
 
 
 def mudar_senha(request):
@@ -84,8 +83,8 @@ def mudar_senha(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = User.objects.get(username =username)
-        user.set_password
+        user = User.objects.get(username=username)
+        user.set_password(password)
         user.save
         return redirect('pla')
 

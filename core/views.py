@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from django.views.generic import View,CreateView,TemplateView
+from django.views.generic import View,CreateView,TemplateView,UpdateView
 
 class Index(TemplateView):
     template_name = 'index.html'
@@ -55,6 +55,23 @@ class Desloga(View):
             return HttpResponse('usuario deslogado')
         else:
             return HttpResponse('usuario logado ainda')
+
+
+
+class Senha(CreateView):
+    def get(self,request):
+        if request.user.is_authenticated:
+            return render (request,'senha.html') 
+
+    def post(self,request):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = User.objects.filter(username=username,password=password)
+        user = User.objects.get(username=username)
+        user.set_password = password
+        user.save
+        return HttpResponse('mudou?')
 
 
 def mudar_senha(request):

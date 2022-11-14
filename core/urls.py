@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import plataforma,mudar_senha
-from .views import Cadastro,Logado,Desloga,Index
+from .views import plataforma
+from .views import Cadastro,Logado,Desloga,Index,Senha
 
 
 urlpatterns = [
@@ -9,5 +9,5 @@ urlpatterns = [
     path('login/',Logado.as_view(),name='logando'),
     path('desloga/',Desloga.as_view(),name='deslog'),
     path('plataforma/',plataforma,name='pla'),
-    path('mudasenha',mudar_senha,name='muda')
+    path('mudasenha',Senha.as_view(),name='muda')
 ]

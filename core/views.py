@@ -1,14 +1,15 @@
 from django.shortcuts import  render, redirect,HttpResponse
-from .forms import NewUserForm
 from django.contrib.auth import login
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from django.views.generic import View,CreateView,TemplateView,UpdateView
+from django.views.generic import View,CreateView,TemplateView,UpdateView,ListView,FormView
+from .models import Curriculo
+from .forms import CurriculoForm
+from django.contrib.auth.views import LoginView
 
+from django.urls import reverse_lazy
 class Index(TemplateView):
     template_name = 'index.html'
-
 
 class Cadastro(CreateView):
     def get(self,request):
@@ -27,9 +28,8 @@ class Cadastro(CreateView):
         return HttpResponse('usuario cadastrado')        
 
 
-class Logado(View):
-    def get(self,request):
-        return render(request,'login.html')  
+class Logado(LoginView, View):
+    template_name = 'login.html'  
 
     def post(self,request):
         username = request.POST.get('username')
@@ -73,23 +73,30 @@ class Senha(UpdateView):
             return redirect('pla')
 
 
-def mudar_senha(request):
-    if request.method =='GET':
-        return render (request,'mudarsenha.html')
-    if request.method == 'POST':
-        logout(request)
-        return redirect('logando')
-    else:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+class Plataforma(TemplateView):
+    
+    def get(self,request):
+        if request.user.is_authenticated:
+            return render(request,'plataforma.html')
+        else:
+            return redirect('logando')
 
-        user = User.objects.get(username=username)
-        user.set_password(password)
-        user.save
-        return redirect('pla')
+class Criacao(FormView):
+    form_class = CurriculoForm
 
-def plataforma(request):
-    if request.user.is_authenticated:
-        return render(request,'plataforma.html')
-    else:
-        return HttpResponse('precisa logar')
+    def get(self,request):
+        if request.user.is_authenticated:
+            return render(request,'plataforma/criacao.html')
+
+
+class Listagem(LoginView ,ListView):
+    template_name = 'plataforma/listagem.html'
+    model = Curriculo
+    queryset = Curriculo.objects.all()
+    # def get(self,request):
+    #     if request.user.is_authenticated:
+
+
+
+
+
